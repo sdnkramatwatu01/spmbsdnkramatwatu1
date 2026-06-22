@@ -31,7 +31,7 @@ export default function Navbar() {
               </div>
             )}
             <span className="font-bold text-xl tracking-tight text-slate-900">
-              {settings?.namaSekolah || 'SD Negeri Kramatwatu 1'}
+              {settings?.namaSekolah || 'SD NEGERI KRAMATWATU 1'}
             </span>
           </Link>
 
