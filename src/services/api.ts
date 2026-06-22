@@ -68,10 +68,10 @@ export interface AdminData extends RegistrationData {
 // Mock data for preview if GAS URL is not set
 const getInitialMockSettings = (): AppSettings => {
   const defaultSettings: AppSettings = {
-    namaSekolah: "SDN Harapan Bangsa",
+    namaSekolah: "SD Negeri Kramatwatu 1",
     alamat: "Jl. Pendidikan No. 123, Kota Pelajar, Indonesia 12345",
     telepon: "(021) 1234-5678",
-    email: "info@sdnharapanbangsa.sch.id",
+    email: "sdnkramatwatu01@gmail.com",
     deskripsi: "Mencetak generasi penerus bangsa yang cerdas, berakhlak mulia, dan siap menghadapi tantangan masa depan dengan pendidikan berkualitas.",
     statusPendaftaran: "Buka",
     persyaratanDaftarUlang: "1. Membawa Bukti Kelulusan yang dicetak\n2. Membawa Fotokopi Akta Kelahiran (2 lembar)\n3. Membawa Fotokopi Kartu Keluarga (2 lembar)\n4. Membawa Pas Foto 3x4 (4 lembar)\n5. Melakukan pembayaran administrasi awal",
@@ -81,24 +81,43 @@ const getInitialMockSettings = (): AppSettings => {
     tahunPendaftaran: new Date().getFullYear().toString(),
     koordinatSekolah: "-6.200000, 106.816666", // Default to Jakarta
     tanggalCutoffUsia: "", // Tanggal ditetapkan cutoff usia
-    sambutanKepalaSekolah: "Selamat datang di website resmi PPDB SDN Harapan Bangsa. Kami berkomitmen untuk memberikan pelayanan pendidikan terbaik bagi putra-putri Anda. Mari bergabung bersama kami untuk mencetak generasi penerus bangsa yang cerdas, berakhlak mulia, dan berprestasi.",
+    sambutanKepalaSekolah: "Selamat datang di website resmi SPMB SD Negeri Kramatwatu 1. Kami berkomitmen untuk memberikan pelayanan pendidikan terbaik bagi putra-putri Anda. Mari bergabung bersama kami untuk mencetak generasi penerus bangsa yang cerdas, berakhlak mulia, dan berprestasi.",
     fotoKepalaSekolah: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop",
     visiSekolah: "Menjadi sekolah dasar unggulan yang menghasilkan lulusan berakhlak mulia, cerdas, terampil, dan berwawasan lingkungan.",
     misiSekolah: "1. Menyelenggarakan pembelajaran yang aktif, inovatif, kreatif, efektif, dan menyenangkan (PAIKEM).\n2. Menanamkan nilai-nilai agama dan budi pekerti luhur dalam kehidupan sehari-hari.\n3. Mengembangkan potensi, bakat, dan minat siswa melalui kegiatan ekstrakurikuler.\n4. Menciptakan lingkungan sekolah yang bersih, sehat, dan asri.",
     formFields: [
+      { id: "Pilih Jalur", label: "Pilih Jalur", type: "select", options: ["Domisili", "Afirmasi", "Mutasi"], required: true },
       { id: "Nama Lengkap", label: "Nama Lengkap", type: "text", required: true },
+      { id: "Nama Panggilan", label: "Nama Panggilan", type: "text", required: true },
       { id: "NIK", label: "NIK", type: "text", required: true },
       { id: "Tempat Lahir", label: "Tempat Lahir", type: "text", required: true },
       { id: "Tanggal Lahir", label: "Tanggal Lahir", type: "date", required: true },
       { id: "Jenis Kelamin", label: "Jenis Kelamin", type: "select", options: ["Laki-laki", "Perempuan"], required: true },
+      { id: "Agama", label: "Agama", type: "select", options: ["Islam", "Kristen", "Hindu", "Budha", "Konghucu"], required: true },
+      { id: "Anak Ke-", label: "Anak Ke-", type: "text", required: true },
+      { id: "Jumlah Saudara Kandung", label: "Jumlah Saudara Kandung", type: "text", required: true },
+      { id: "Bahasa Sehari-hari", label: "Bahasa Sehari-hari", type: "text", required: true },
+      { id: "Tinggi Badan", label: "Tinggi Badan (cm)", type: "text", required: true },
+      { id: "Berat Badan", label: "Berat Badan (kg)", type: "text", required: true },
       { id: "Alamat", label: "Alamat Lengkap", type: "textarea", required: true },
-      { id: "Nama Orang Tua", label: "Nama Orang Tua/Wali", type: "text", required: true },
+      { id: "Nama Ayah", label: "Nama Ayah", type: "text", required: true },
+      { id: "NIK Ayah", label: "NIK Ayah", type: "text", required: true },
+      { id: "Tgl Lahir Ayah", label: "Tgl Lahir Ayah", type: "date", required: true },
+      { id: "Pendidikan Ayah", label: "Pendidikan Ayah", type: "select", options: ["Tidak Sekolah", "TK/PAUD", "SD", "SMP", "SMA/SMK", "D2/D3", "S1", "S2", "S3"], required: true },
+      { id: "Pekerjaan Ayah", label: "Pekerjaan Ayah", type: "select", options: ["Tidak Bekerja", "Nelayan", "Petani", "Peternak", "PNS/TNI/Polri", "Karyawan Swasta", "Pedagang Kecil", "Pedagang Besar", "Wiraswasta", "Wirausaha", "Buruh", "Pensiunan", "TKI", "Karyawan BUMN", "Sudah Meninggal"], required: true },
+      { id: "Nama Ibu", label: "Nama Ibu", type: "text", required: true },
+      { id: "NIK Ibu", label: "NIK Ibu", type: "text", required: true },
+      { id: "Tgl Lahir Ibu", label: "Tgl Lahir Ibu", type: "date", required: true },
+      { id: "Pendidikan Ibu", label: "Pendidikan Ibu", type: "select", options: ["Tidak Sekolah", "TK/PAUD", "SD", "SMP", "SMA/SMK", "D2/D3", "S1", "S2", "S3"], required: true },
+      { id: "Pekerjaan Ibu", label: "Pekerjaan Ibu", type: "select", options: ["Tidak Bekerja", "Nelayan", "Petani", "Peternak", "PNS/TNI/Polri", "Karyawan Swasta", "Pedagang Kecil", "Pedagang Besar", "Wiraswasta", "Wirausaha", "Buruh", "Pensiunan", "TKI", "Karyawan BUMN", "Sudah Meninggal"], required: true },
       { id: "No HP", label: "No. WhatsApp Aktif", type: "text", required: true },
-      { id: "Foto Siswa", label: "Pas Foto 3x4", type: "file", required: true },
+      { id: "Ijazah", label: "Ijazah/SKHUN (jika ada)", type: "file", required: true },
       { id: "Kartu Keluarga", label: "Kartu Keluarga", type: "file", required: true },
       { id: "Akta Kelahiran", label: "Akta Kelahiran", type: "file", required: true }
+      { id: "Afirmasi", label: "Kartu PKH/KIP (jalur afirmasi)", type: "file", required: true },
+      { id: "Mutasi", label: "Suket Pindah (jalur mutasi)", type: "file", required: true },
     ],
-    panduanJudul: "Panduan Pendaftaran PPDB",
+    panduanJudul: "Panduan Pendaftaran SPMB",
     panduanDeskripsi: "Persiapkan dokumen berikut sebelum mulai mengisi formulir pendaftaran.",
     panduanPeringatan: "Pastikan semua dokumen di-scan atau difoto dengan jelas dan dapat terbaca. Format file yang disarankan adalah JPG, PNG, atau PDF dengan ukuran maksimal 2MB per file.",
     panduanDokumen: [
@@ -152,7 +171,7 @@ const getInitialMockData = (): AdminData[] => {
   return [
     {
       Timestamp: new Date().toISOString(),
-      'No Pendaftaran': "PPDB-2024-001",
+      'No Pendaftaran': "SPMB-2024-001",
       'Nama Lengkap': "Budi Santoso",
       'NIK': "1234567890123456",
       'Tempat Lahir': "Jakarta",
@@ -230,7 +249,7 @@ export const submitRegistration = async (data: RegistrationData) => {
     const newEntry: AdminData = {
       ...data,
       Timestamp: new Date().toISOString(),
-      'No Pendaftaran': `PPDB-${year}-${String(mockData.length + 1).padStart(3, '0')}`,
+      'No Pendaftaran': `SPMB-${year}-${String(mockData.length + 1).padStart(3, '0')}`,
       Status: 'Proses'
     };
     saveMockData([...mockData, newEntry]);
