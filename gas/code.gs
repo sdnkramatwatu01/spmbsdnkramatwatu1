@@ -1,5 +1,5 @@
 /**
- * Google Apps Script Backend for PPDB SD
+ * Google Apps Script Backend for SPMB SD
  * Deploy as a Web App:
  * 1. Click "Deploy" -> "New deployment"
  * 2. Select type: "Web app"
@@ -11,27 +11,46 @@
 const SHEET_NAME = "Data Pendaftar";
 const ADMIN_SHEET_NAME = "Admin";
 const SETTINGS_SHEET_NAME = "Pengaturan";
-const FOLDER_NAME = "PPDB SD";
+const FOLDER_NAME = "SPMB SD";
 
 const DEFAULT_FORM_FIELDS = [
+  { id: "Pilih Jalur", label: "Pilih Jalur", type: "select", options: ["Domisili", "Afirmasi", "Mutasi"], required: true },
   { id: "Nama Lengkap", label: "Nama Lengkap", type: "text", required: true },
+  { id: "Nama Panggilan", label: "Nama Panggilan", type: "text", required: true },
   { id: "NIK", label: "NIK", type: "text", required: true },
   { id: "Tempat Lahir", label: "Tempat Lahir", type: "text", required: true },
   { id: "Tanggal Lahir", label: "Tanggal Lahir", type: "date", required: true },
   { id: "Jenis Kelamin", label: "Jenis Kelamin", type: "select", options: ["Laki-laki", "Perempuan"], required: true },
+  { id: "Agama", label: "Agama", type: "select", options: ["Islam", "Kristen", "Hindu", "Budha", "Konghucu"], required: true },
+  { id: "Anak Ke-", label: "Anak Ke-", type: "text", required: true },
+  { id: "Jumlah Saudara Kandung", label: "Jumlah Saudara Kandung", type: "text", required: true },
+  { id: "Bahasa Sehari-hari", label: "Bahasa Sehari-hari", type: "text", required: true },
+  { id: "Tinggi Badan", label: "Tinggi Badan (cm)", type: "text", required: true },
+  { id: "Berat Badan", label: "Berat Badan (kg)", type: "text", required: true },
   { id: "Alamat", label: "Alamat Lengkap", type: "textarea", required: true },
-  { id: "Nama Orang Tua", label: "Nama Orang Tua/Wali", type: "text", required: true },
+  { id: "Nama Ayah", label: "Nama Ayah", type: "text", required: true },
+  { id: "NIK Ayah", label: "NIK Ayah", type: "text", required: true },
+  { id: "Tgl Lahir Ayah", label: "Tgl Lahir Ayah", type: "date", required: true },
+  { id: "Pendidikan Ayah", label: "Pendidikan Ayah", type: "select", options: ["Tidak Sekolah", "TK/PAUD", "SD", "SMP", "SMA/SMK", "D2/D3", "S1", "S2", "S3"], required: true },
+  { id: "Pekerjaan Ayah", label: "Pekerjaan Ayah", type: "select", options: ["Tidak Bekerja", "Nelayan", "Petani", "Peternak", "PNS/TNI/Polri", "Karyawan Swasta", "Pedagang Kecil", "Pedagang Besar", "Wiraswasta", "Wirausaha", "Buruh", "Pensiunan", "TKI", "Karyawan BUMN", "Sudah Meninggal"], required: true },
+  { id: "Nama Ibu", label: "Nama Ibu", type: "text", required: true },
+  { id: "NIK Ibu", label: "NIK Ibu", type: "text", required: true },
+  { id: "Tgl Lahir Ibu", label: "Tgl Lahir Ibu", type: "date", required: true },
+  { id: "Pendidikan Ibu", label: "Pendidikan Ibu", type: "select", options: ["Tidak Sekolah", "TK/PAUD", "SD", "SMP", "SMA/SMK", "D2/D3", "S1", "S2", "S3"], required: true },
+  { id: "Pekerjaan Ibu", label: "Pekerjaan Ibu", type: "select", options: ["Tidak Bekerja", "Nelayan", "Petani", "Peternak", "PNS/TNI/Polri", "Karyawan Swasta", "Pedagang Kecil", "Pedagang Besar", "Wiraswasta", "Wirausaha", "Buruh", "Pensiunan", "TKI", "Karyawan BUMN", "Sudah Meninggal"], required: true },
   { id: "No HP", label: "No. WhatsApp Aktif", type: "text", required: true },
-  { id: "Foto Siswa", label: "Pas Foto 3x4", type: "file", required: true },
+  { id: "Ijazah", label: "Ijazah/SKHUN (jika ada)", type: "file", required: true },
   { id: "Kartu Keluarga", label: "Kartu Keluarga", type: "file", required: true },
   { id: "Akta Kelahiran", label: "Akta Kelahiran", type: "file", required: true }
+  { id: "Afirmasi", label: "Kartu PKH/KIP (jalur afirmasi)", type: "file", required: true },
+  { id: "Mutasi", label: "Suket Pindah (jalur mutasi)", type: "file", required: true },
 ];
 
 const DEFAULT_SETTINGS = {
-  namaSekolah: "SDN Harapan Bangsa",
+  namaSekolah: "SD Negeri Kramatwatu 1",
   alamat: "Jl. Pendidikan No. 123, Kota Pelajar, Indonesia 12345",
   telepon: "(021) 1234-5678",
-  email: "info@sdnharapanbangsa.sch.id",
+  email: "sdnkramatwatu01@gmail.com",
   deskripsi: "Mencetak generasi penerus bangsa yang cerdas, berakhlak mulia, dan siap menghadapi tantangan masa depan dengan pendidikan berkualitas.",
   statusPendaftaran: "Buka",
   formFields: JSON.stringify(DEFAULT_FORM_FIELDS)
@@ -56,7 +75,7 @@ function setup() {
   if (!adminSheet) {
     adminSheet = ss.insertSheet(ADMIN_SHEET_NAME);
     adminSheet.appendRow(["Username", "Password"]);
-    adminSheet.appendRow(["admin", "admin123"]); // Default credentials
+    adminSheet.appendRow(["haqiqi", "@Kramatwatu1"]); // Default credentials
     adminSheet.getRange(1, 1, 1, 2).setFontWeight("bold").setBackground("#e0e0e0");
   }
 
@@ -237,7 +256,7 @@ function handleRegistration(data) {
       }
     }
   }
-  const noPendaftaran = `PPDB-${year}-${String(nextId).padStart(3, '0')}`;
+  const noPendaftaran = `SPMB-${year}-${String(nextId).padStart(3, '0')}`;
   
   const folder = getOrCreateFolder(FOLDER_NAME);
   const rowData = new Array(headers.length).fill("");
